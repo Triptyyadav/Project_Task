@@ -1,0 +1,79 @@
+﻿@using PagedList.Mvc
+@model  PagedList.IPagedList<Productmanagement.Models.ProductModel>
+
+@*@model List<Productmanagement.Models.ProductModel>*@
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Product Master</h2>
+<p>
+    @Html.ActionLink("Add New Product", "AddProduct")
+</p>
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+
+            <th>
+                Product Id
+            </th>
+            <th>
+                Product Name
+            </th>
+
+            <th>
+                Category
+            </th>
+            <th>
+
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductId)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditProductDetails", new { id = item.ProductId }) |
+                    @Html.ActionLink("Delete", "DeleteProduct", new { id = item.ProductId }, new { onclick = "return confirm('Are sure wants to delete?');" })
+                </td>
+            </tr>
+
+        }
+
+    </table>
+
+    <div id="container" style="margin-left: 20px">
+        <p></p>
+        <p></p>
+        <div class="pagination" style="margin-left: 400px">
+           
+
+            
+
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+            of @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+           
+            
+        </div>
+
+    </div>
+    
+}
